@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda Deportiva</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="img/Logo.jpg" alt="=Logo de Tienda Deportiva" />
+        </div>
+        <h1>Sports Store</h1>
+        <nav>
+            <ul>
+                <li><a href="#home">Inicio</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home">
+        <h2>Bienvenido a nuestra tienda</h2>
+        <p> En Sport Store, vivimos y respiramos deporte. 
+            Somos una tienda especializada en ofrecerte la mejor selección de ropa
+            calzado y equipamiento deportivo para que alcances tu máximo rendimiento.
+        </p>
+    </section>
+
+    <section id="productos">
+        <h2>Productos Destacados</h2>
+        <div class="producto" onclick="agregarAlCarrito('Zapatillas de Correr')">
+            <img src="https://th.bing.com/th/id/OIP.6K4gg5JrOzH9LlK9xqC1zAHaF-?rs=1&pid=ImgDetMain" alt="Zapatillas de Correr">
+            <h3>Zapatillas de Correr</h3>
+            <p>Precio: $50</p>
+        </div>
+        <div class="producto" onclick="agregarAlCarrito('Balón de Fútbol')">
+            <img src="https://dojiw2m9tvv09.cloudfront.net/14107/product/balonmundialcmp-63112069.jpg?109" alt="Balón de Fútbol">
+            <h3>Balón de Fútbol</h3>
+            <p>Precio: $30</p>
+        </div>
+        <div class="producto" onclick="agregarAlCarrito('Raqueta de Tenis')">
+            <img src="https://th.bing.com/th/id/OIP.stKgQIm5zy6_NCGCYiCcDAHaHa?rs=1&pid=ImgDetMain" alt="Raqueta de Tenis">
+            <h3>Raqueta de Tenis</h3>
+            <p>Precio: $70</p>
+        </div>
+        <div class="producto" onclick="agregarAlCarrito('Bicicleta de Montaña')">
+            <img src="https://cdn1.coppel.com/images/catalog/mkp/2502/3000/25021400-1.jpg" alt="Bicicleta de Montaña">
+            <h3>Bicicleta de Montaña</h3>
+            <p>Precio: $300</p>
+        </div>
+        <div class="producto" onclick="agregarAlCarrito('Pelota de Baloncesto')">
+            <img src="https://sialdeporte.com/wp-content/uploads/2018/02/Bal%C3%B3n-de-Basquetbol-6.jpg" alt="Pelota de Baloncesto">
+            <h3>Pelota de Baloncesto</h3>
+            <p>Precio: $25</p>
+        </div>
+        <div class="producto" onclick="agregarAlCarrito('Equipo de Yoga')">
+            <img src="https://th.bing.com/th/id/OIP.-5YOSV9tXVr9lC_Bk1h8swHaHa?rs=1&pid=ImgDetMain" alt="Equipo de Yoga">
+            <h3>Equipo de Yoga</h3>
+            <p>Precio: $40</p>
+        </div>
+        <div class="producto" onclick="agregarAlCarrito('Ropa de Ciclismo')">
+            <img src="https://th.bing.com/th/id/OIP.xrHRpFdcLFt5XP2SdeGUWgHaHa?rs=1&pid=ImgDetMain" alt="Ropa de Ciclismo">
+            <h3>Ropa de Ciclismo</h3>
+            <p>Precio: $60</p>
+        </div>
+        <div class="producto" onclick="agregarAlCarrito('Botella de Agua')">
+            <img src="https://th.bing.com/th/id/OIP.fLKURoXEvbgH8SVNcyu3ngHaHa?rs=1&pid=ImgDetMain" alt="Botella de Agua">
+            <h3>Botella de Agua</h3>
+            <p>Precio: $15</p>
+        </div>
+        <div class="producto" onclick="agregarAlCarrito('Mancuernas')">
+            <img src="https://th.bing.com/th/id/OIP.vQkd9F4MpNImWGt68JBKtgHaF7?rs=1&pid=ImgDetMain" alt="Mancuernas">
+            <h3>Mancuernas</h3>
+            <p>Precio: $45</p>
+        </div>
+        <div class="producto" onclick="agregarAlCarrito('Cinta de Correr')">
+            <img src="https://sgfm.elcorteingles.es/SGFM/dctm/MEDIA03/202006/10/00108446503891____1__1200x1200.jpg" alt="Cinta de Correr">
+            <h3>Cinta de Correr</h3>
+            <p>Precio: $500</p>
+        </div>
+    </section>
+
+    <section id="contacto">
+        <h2>Contacto</h2>
+        <form id="contactForm">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+            <label for="mensaje">Mensaje:</label>
+            <textarea id="mensaje" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 Tienda Deportiva. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
