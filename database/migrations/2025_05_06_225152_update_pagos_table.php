@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('carritos', function (Blueprint $table) {
+        Schema::create('pagos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('estado', ['activo', 'finalizado'])->default('activo');
+            $table->foreignId('tarjeta_id')->nullable()->constrained('tarjetas_credito');
+            $table->decimal('monto', 10, 2);
+            $table->string('metodo'); // efectivo, tarjeta, etc.
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carritos');
+        //
     }
 };
