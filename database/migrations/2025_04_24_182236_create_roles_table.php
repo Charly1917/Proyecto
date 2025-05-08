@@ -9,20 +9,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
-{
-    Schema::create('roles', function (Blueprint $table) {
-        $table->id();
-        $table->string('nombre'); // admin, cliente
-        $table->timestamps();
-    });
-
-    // Agregar role_id a users
-    Schema::table('users', function (Blueprint $table) {
-        $table->unsignedBigInteger('role_id')->nullable()->after('id');
-        $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');
-    });
-}
+    public function up(): void
+    {
+        // Crear la tabla roles
+        Schema::create('roles', function (Blueprint $table) {
+            $table->id();
+            $table->string('nombre'); // admin, cliente
+            $table->timestamps();
+        });
+    
+        // Agregar role_id a la tabla usuarios
+        Schema::table('usuarios', function (Blueprint $table) {
+            $table->unsignedBigInteger('role_id')->nullable()->after('id');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');
+        });
+    }
+    
 
 
     /**

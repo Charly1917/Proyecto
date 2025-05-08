@@ -34,26 +34,63 @@ header {
     font-size: 24px;
     font-weight: bold;
 }
+/* Estilo para la barra de navegación */
+nav ul li a {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+    padding: 10px 15px; /* Tamaño de los enlaces */
+    display: inline-block;
+}
 
+nav ul li a:hover {
+    color: #FF5722;
+}
+
+/* Aseguramos que los elementos estén alineados correctamente */
 nav ul {
     display: flex;
     justify-content: flex-end;
 }
 
 nav ul li {
-    margin: 0 15px;
+    margin: 0 10px;
 }
 
-nav ul li a {
-    color: #FFFFFF;
-    text-decoration: none;
+/* Estilo para el botón de "Cerrar Sesión" */
+.logout-form {
+    margin: 0;
+}
+
+.logout-btn {
+    padding: 6px 12px; /* Más pequeño que antes */
+    font-size: 12px; /* Fuente más pequeña */
+    background-color: transparent;
+    color: #1257a0; /* Color del texto igual al de la barra */
+    border: 2px solid #1257a0; /* Borde con el mismo color */
+    border-radius: 20px; /* Bordes redondeados */
+    cursor: pointer;
     font-weight: 600;
-    transition: color 0.3s;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin: 0; /* Asegura que no haya margen adicional */
 }
 
-nav ul li a:hover {
-    color: #FF5722;
+/* Efecto hover para el botón */
+.logout-btn:hover {
+    background-color: #1257a0;
+    color: #fff;
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Agrega sombra al hacer hover */
 }
+
+/* Añadir margen a la última lista para separar el botón */
+nav ul li:last-child {
+    margin-left: 10px;
+}
+
 
 section {
     padding: 20px;

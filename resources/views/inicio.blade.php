@@ -13,12 +13,19 @@
         </div>
         <h1>Sports Store</h1>
         <nav>
-            <ul>
-                <li><a href="#home">Inicio</a></li>
-                <li><a href="#productos">Productos</a></li>
-                <li><a href="#contacto">Contacto</a></li>
-            </ul>
-        </nav>
+    <ul>
+        <li><a href="#home" class="nav-link">Inicio</a></li>
+        <li><a href="#productos" class="nav-link">Productos</a></li>
+        <li><a href="#contacto" class="nav-link">Contacto</a></li>
+        <li>
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="nav-link logout-btn">Cerrar Sesión</button>
+            </form>
+        </li>
+    </ul>
+</nav>
+
     </header>
 
     <section id="home">
@@ -30,17 +37,17 @@
     </section>
 
     <section id="productos">
-        <h2>Productos Destacados</h2>
+    <h2>Productos Destacados</h2>
 
-        @foreach ($productos as $producto)
-            <div class="producto">
-                <img src="{{ $producto->imagen }}" alt="{{ $producto->nombre }}" alt="{{ $producto->precio }}">
-                <h3>{{ $producto->nombre }}</h3>
-                <p>Precio: ${{ number_format($producto->precio, 2) }}</p>
-            </div>
-        @endforeach
+    @foreach ($productos as $producto)
+        <div class="producto" onclick="agregarAlCarrito('{{ $producto->nombre }}', {{ $producto->precio }})">
+            <img src="{{ $producto->imagen }}" alt="{{ $producto->nombre }}">
+            <h3>{{ $producto->nombre }}</h3>
+            <p>Precio: ${{ number_format($producto->precio, 2) }}</p>
+        </div>
+    @endforeach
+</section>
 
-    </section>
 
     <section id="contacto">
         <h2>Contacto</h2>

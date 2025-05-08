@@ -35,12 +35,13 @@ return [
     |
     */
 
-    'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'users',
-        ],
+   'guards' => [
+    'web' => [
+        'driver' => 'session',
+        'provider' => 'usuarios',  // Aquí estamos diciendo que el proveedor de usuarios se llama 'usuarios'
     ],
+],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -58,12 +59,12 @@ return [
     | Supported: "database", "eloquent"
     |
     */
+'providers' => [
+    'usuarios' => [
+        'driver' => 'eloquent',
+        'model' => App\Models\User::class,  // Apunta al modelo User
+    ],
 
-    'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
 
         // 'users' => [
         //     'driver' => 'database',

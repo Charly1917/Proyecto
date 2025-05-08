@@ -10,16 +10,17 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up()
-    {
-        Schema::create('carrito_detalles', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Usuario que tiene el producto en su carrito
-            $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade'); // Producto agregado
-            $table->integer('cantidad')->default(1); // Cantidad de ese producto
-            $table->decimal('subtotal', 8, 2); // Precio total por cantidad (puedes calcularlo con JS y pasarlo)
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('carrito_detalles', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_id')->constrained('usuarios')->onDelete('cascade'); // Cambia 'users' a 'usuarios'
+        $table->foreignId('producto_id')->constrained('productos')->onDelete('cascade'); // No necesitas cambiar esto
+        $table->integer('cantidad')->default(1); // Cantidad de ese producto
+        $table->decimal('subtotal', 8, 2); // Precio total por cantidad (puedes calcularlo con JS y pasarlo)
+        $table->timestamps();
+    });
+}
+
 
 
     /**

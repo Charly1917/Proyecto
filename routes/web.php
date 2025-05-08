@@ -1,20 +1,27 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductoController;
-use Illuminate\Http\Request;
-
-//Route::get('/', [ProductoController::class, 'index']);
+use App\Models\Producto;
 
 
-// GET con parámetro en la URL
-Route::get('/{nombre}/{numero}', function ($nombre,$numero) {
-    return response()->json(['mensaje' => "Hola $nombre, numero de la suerte es $numero"]);
-});
+// Página de inicio que muestra el formulario de login
+Route::get('/', [AuthController::class, 'showLoginForm'])->name('login.form');
 
-// POST con parámetro en el body
-Route::post('/saludo', function (Request $request) {
-    $nombre = $request->nombre;
-    $edad = $request->edad;
-    return response()->json(['mensaje' => "Hola $nombre, tienes $edad años."]);
-});
+// Ruta para procesar el login
+Route::post('/login', [AuthController::class, 'login'])->name('login.store');
+
+// Página principal (inicio) solo accesible si el usuario está autenticado
+Route::get('/inicio', function () {
+    $productos = Producto::all();
+    return view('inicio', compact('productos'));
+})->middleware('auth')->name('inicio');
+
+// Ruta para cerrar sesión
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+// Ruta para el formulario de registro
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register.form');
+
+// Ruta para procesar el registro
+Route::post('/register', [AuthController::class, 'register'])->name('register.store');

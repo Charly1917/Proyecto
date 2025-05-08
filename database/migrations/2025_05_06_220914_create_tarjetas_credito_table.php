@@ -10,17 +10,18 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up()
-    {
-        Schema::create('tarjetas_credito', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('numero');
-            $table->string('nombre_en_tarjeta');
-            $table->string('fecha_expiracion');
-            $table->string('cvv');
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('tarjetas_credito', function (Blueprint $table) {
+        $table->id();
+        $table->foreignId('user_id')->constrained('usuarios')->onDelete('cascade'); // Cambia 'users' a 'usuarios'
+        $table->string('numero');
+        $table->string('nombre_en_tarjeta');
+        $table->string('fecha_expiracion');
+        $table->string('cvv');
+        $table->timestamps();
+    });
+}
+
     
 
     /**

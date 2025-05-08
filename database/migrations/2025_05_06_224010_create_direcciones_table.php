@@ -10,7 +10,7 @@ class CreateDireccionesTable extends Migration
     {
         Schema::create('direcciones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('usuario_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('usuario_id')->constrained('usuarios')->onDelete('cascade'); // Cambia 'users' a 'usuarios'
             $table->string('calle');
             $table->string('colonia');
             $table->string('numero_exterior')->nullable();
@@ -19,6 +19,7 @@ class CreateDireccionesTable extends Migration
             $table->timestamps();
         });
     }
+    
 
     public function down()
     {

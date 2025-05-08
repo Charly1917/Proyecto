@@ -9,9 +9,9 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
 {
-    Schema::create('users', function (Blueprint $table) {
+    Schema::create('usuarios', function (Blueprint $table) {
         $table->id();
         $table->string('nombre');
         $table->string('apellido_paterno');
@@ -19,8 +19,8 @@ return new class extends Migration
         $table->string('email')->unique();
         $table->timestamp('email_verified_at')->nullable();
         $table->string('password');
-        $table->string('telefono')->nullable(); // antes estaba en direcciones
-        $table->string('rfc')->nullable();       // nuevo campo solicitado
+        $table->string('telefono')->nullable();
+        $table->string('rfc')->nullable(); // Nuevo campo solicitado
         $table->rememberToken();
         $table->timestamps();
     });
