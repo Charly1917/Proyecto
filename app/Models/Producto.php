@@ -3,19 +3,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Producto extends Model
 {
-    // Nombre de la tabla (opcional si sigue convención)
+    use HasFactory;
+
     protected $table = 'productos';
 
-    // Campos que se pueden asignar masivamente
+    // Campos permitidos para asignación masiva
     protected $fillable = [
         'nombre',
         'precio',
         'imagen',
+        'proveedor_id', // 👈 Muy importante agregar esto
     ];
 
-    // Si no usas timestamps (created_at y updated_at), agrega esto:
-    public $timestamps = false;
+    // Activa timestamps
+    public $timestamps = true;
+
+    // Relación con proveedor
+    public function proveedor()
+    {
+        return $this->belongsTo(Proveedor::class);
+    }
 }

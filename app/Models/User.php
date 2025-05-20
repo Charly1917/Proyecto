@@ -16,8 +16,9 @@ class User extends Authenticatable
 
     // Campos que pueden ser asignados masivamente
     protected $fillable = [
-        'nombre', 'apellido_paterno', 'apellido_materno', 'email', 'password',
-    ];
+    'nombre', 'apellido_paterno', 'apellido_materno', 'email', 'password', 'role_id',
+];
+
 
     // Para la autenticación, la clave primaria
     protected $primaryKey = 'id';
@@ -31,4 +32,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function role()
+{
+    return $this->belongsTo(Role::class, 'role_id');
+}
+
 }

@@ -30,7 +30,8 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {
-        Schema::dropIfExists('users');
-    }
+{
+    Schema::dropIfExists('usuarios'); // Estás borrando 'users', debe ser 'usuarios'
+}
+
 };

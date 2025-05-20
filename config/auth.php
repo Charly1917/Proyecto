@@ -35,10 +35,14 @@ return [
     |
     */
 
-   'guards' => [
+  'guards' => [
     'web' => [
         'driver' => 'session',
-        'provider' => 'usuarios',  // Aquí estamos diciendo que el proveedor de usuarios se llama 'usuarios'
+        'provider' => 'users',
+    ],
+    'proveedor' => [ // 🔸 Nuevo guard
+        'driver' => 'session',
+        'provider' => 'proveedores',
     ],
 ],
 
@@ -60,9 +64,13 @@ return [
     |
     */
 'providers' => [
-    'usuarios' => [
+    'users' => [
         'driver' => 'eloquent',
-        'model' => App\Models\User::class,  // Apunta al modelo User
+        'model' => App\Models\User::class,
+    ],
+    'proveedores' => [ // 🔸 Nuevo provider
+        'driver' => 'eloquent',
+        'model' => App\Models\Proveedor::class,
     ],
 
 

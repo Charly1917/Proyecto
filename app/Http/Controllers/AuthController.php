@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User; // Asegúrate de que el modelo User esté correctamente configurado
+use App\Models\Role;
 
 class AuthController extends Controller
 {
@@ -39,34 +40,39 @@ class AuthController extends Controller
 
     // Procesar registro
     public function register(Request $request)
-    {
-        $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellido_paterno' => 'required|string|max:255',
-            'apellido_materno' => 'nullable|string|max:255',
-            'email' => 'required|email|unique:usuarios,email',
-            'password' => 'required|confirmed|min:6',
-        ]);
+{
+    $request->validate([
+        'nombre' => 'required|string|max:255',
+        'apellido_paterno' => 'required|string|max:255',
+        'apellido_materno' => 'nullable|string|max:255',
+        'email' => 'required|email|unique:usuarios,email',
+        'password' => 'required|confirmed|min:6',
+    ]);
 
-        // Crear nuevo usuario
-        User::create([
-            'nombre' => $request->nombre,
-            'apellido_paterno' => $request->apellido_paterno,
-            'apellido_materno' => $request->apellido_materno,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+    // Obtener el rol de "cliente" o "usuario"
+    $rol = Role::where('nombre', 'cliente')->first(); // o 'usuario' según el nombre que tengas
 
-        return redirect()->route('login.form')->with('success', 'Usuario registrado. Inicia sesión.');
-    }
+    // Crear nuevo usuario con rol
+    User::create([
+        'nombre' => $request->nombre,
+        'apellido_paterno' => $request->apellido_paterno,
+        'apellido_materno' => $request->apellido_materno,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role_id' => $rol ? $rol->id : null, // asignar ID de rol
+    ]);
+
+    return redirect()->route('login.form')->with('success', 'Usuario registrado. Inicia sesión.');
+}
 
     // Cerrar sesión
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+   public function logout(Request $request)
+{
+    Auth::logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
 
-        return redirect('/');
-    }
+    return redirect()->route('login.form'); // Redirige por nombre de ruta
+}
+
 }
