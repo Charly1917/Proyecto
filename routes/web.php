@@ -68,9 +68,6 @@ Route::middleware('auth:proveedor')->group(function () {
     // Guardar nuevo producto (solo proveedor autenticado)
     Route::post('/proveedor/productos', [ProveedorAuthController::class, 'guardarProducto'])->name('proveedor.producto.store');
 
-    // (Opcional) Ruta para editar productos (si ya la implementaste)
-    Route::get('/proveedor/productos/{id}/edit', [ProveedorAuthController::class, 'editarProducto'])->name('proveedor.producto.edit');
-
     // Formulario para editar producto
 Route::get('/proveedor/productos/{id}/edit', [ProveedorAuthController::class, 'editarProducto'])->name('proveedor.producto.edit');
 

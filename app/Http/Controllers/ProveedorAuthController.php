@@ -31,21 +31,18 @@ class ProveedorAuthController extends Controller
     }
 
     // Mostrar dashboard del proveedor con productos
-   public function dashboard()
-{
-    // Obtiene al proveedor autenticado usando el guard 'proveedor'
-    $proveedor = Auth::guard('proveedor')->user();
+    public function dashboard()
+    {
+        $proveedor = Auth::guard('proveedor')->user();
 
-    // Si por alguna razón no está autenticado, redirige
-    if (!$proveedor) {
-        return redirect()->route('proveedor.login')->withErrors(['error' => 'No has iniciado sesión.']);
+        if (!$proveedor) {
+            return redirect()->route('proveedor.login')->withErrors(['error' => 'No has iniciado sesión.']);
+        }
+
+        $productos = Producto::where('proveedor_id', $proveedor->id)->get();
+
+        return view('proveedor.dashboard', compact('productos'));
     }
-
-    // Obtiene los productos del proveedor autenticado
-    $productos = Producto::where('proveedor_id', $proveedor->id)->get();
-
-    return view('proveedor.dashboard', compact('productos'));
-}
 
     // Mostrar formulario para crear producto
     public function crearProducto()
@@ -60,12 +57,14 @@ class ProveedorAuthController extends Controller
             'nombre' => 'required|string|max:255',
             'precio' => 'required|numeric',
             'imagen' => 'nullable|string',
+            'stock'  => 'required|integer|min:0',
         ]);
 
         Producto::create([
-            'nombre' => $request->nombre,
-            'precio' => $request->precio,
-            'imagen' => $request->imagen ?? 'sin-imagen.jpg',
+            'nombre'       => $request->nombre,
+            'precio'       => $request->precio,
+            'imagen'       => $request->imagen ?? 'sin-imagen.jpg',
+            'stock'        => $request->stock,
             'proveedor_id' => Auth::guard('proveedor')->id(),
         ]);
 
@@ -82,22 +81,22 @@ class ProveedorAuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:255',
-            'apellido_paterno' => 'required|string|max:255',
-            'apellido_materno' => 'required|string|max:255',
-            'email' => 'required|email|unique:proveedores,email',
-            'password' => 'required|string|min:6|confirmed',
+            'nombre'            => 'required|string|max:255',
+            'apellido_paterno'  => 'required|string|max:255',
+            'apellido_materno'  => 'required|string|max:255',
+            'email'             => 'required|email|unique:proveedores,email',
+            'password'          => 'required|string|min:6|confirmed',
         ]);
 
         $rol = Role::where('nombre', 'proveedor')->first();
 
         $proveedor = Proveedor::create([
-            'nombre' => $request->nombre,
-            'apellido_paterno' => $request->apellido_paterno,
-            'apellido_materno' => $request->apellido_materno,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id' => $rol ? $rol->id : null,
+            'nombre'            => $request->nombre,
+            'apellido_paterno'  => $request->apellido_paterno,
+            'apellido_materno'  => $request->apellido_materno,
+            'email'             => $request->email,
+            'password'          => Hash::make($request->password),
+            'role_id'           => $rol ? $rol->id : null,
         ]);
 
         Auth::guard('proveedor')->login($proveedor);
@@ -107,42 +106,53 @@ class ProveedorAuthController extends Controller
 
     // Cerrar sesión del proveedor
     public function logout(Request $request)
-    {
-        Auth::guard('proveedor')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+{
+    Auth::guard('proveedor')->logout();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
 
-        return redirect()->route('proveedor.login');
-    }
+    return redirect()->route('proveedor.login');
+}
+
+    // Mostrar formulario para editar un producto
     public function editarProducto($id)
     {
-    $producto = Producto::findOrFail($id);
+        $producto = Producto::findOrFail($id);
 
-    // Verifica que el proveedor sea el dueño del producto
-    if ($producto->proveedor_id !== auth()->guard('proveedor')->id()) {
-        abort(403, 'No autorizado.');
+        if ($producto->proveedor_id !== auth()->guard('proveedor')->id()) {
+            abort(403, 'No autorizado.');
+        }
+
+        return view('proveedor.editar_producto', compact('producto'));
     }
 
-    return view('proveedor.editar_producto', compact('producto'));
-    }
-
+    // Actualizar producto
     public function actualizarProducto(Request $request, $id)
-    {
+{
+    $request->validate([
+        'nombre'      => 'required|string|max:255',
+        'descripcion' => 'nullable|string',
+        'precio'      => 'required|numeric',
+        'imagen'      => 'nullable|string',
+        'stock'       => 'required|integer|min:0',
+    ]);
+
     $producto = Producto::findOrFail($id);
 
+    // Validar que el producto pertenezca al proveedor logueado
     if ($producto->proveedor_id !== auth()->guard('proveedor')->id()) {
         abort(403, 'No autorizado.');
     }
 
-    $producto->nombre = $request->nombre;
-    $producto->precio = $request->precio;
-    $producto->imagen = $request->input('imagen_url');
-
+    $producto->nombre      = $request->nombre;
+    $producto->descripcion = $request->descripcion ?? 'Sin descripción';
+    $producto->precio      = $request->precio;
+    $producto->imagen      = $request->imagen ?? 'sin-imagen.jpg';
+    $producto->stock       = $request->stock;
 
     $producto->save();
 
     return redirect()->route('proveedor.dashboard')->with('success', 'Producto actualizado correctamente');
-    }
-
+}
 
 }

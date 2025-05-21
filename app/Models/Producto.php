@@ -13,18 +13,22 @@ class Producto extends Model
 
     // Campos permitidos para asignación masiva
     protected $fillable = [
-        'nombre',
-        'precio',
-        'imagen',
-        'proveedor_id', // 👈 Muy importante agregar esto
+    'nombre',
+    'descripcion',
+    'precio',
+    'stock',
+    'imagen',
+    'proveedor_id',
     ];
+
 
     // Activa timestamps
     public $timestamps = true;
 
     // Relación con proveedor
-    public function proveedor()
+   public function proveedor()
     {
-        return $this->belongsTo(Proveedor::class);
+    return $this->belongsTo(Proveedor::class);
     }
+
 }

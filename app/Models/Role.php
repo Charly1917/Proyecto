@@ -9,12 +9,17 @@ class Role extends Model
 {
     use HasFactory;
 
-    // Permitir asignación masiva
     protected $fillable = ['nombre'];
 
     // Relación con usuarios
-    public function users()
+    public function usuarios()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(Usuario::class, 'role_id');
+    }
+
+    // Relación con proveedores
+    public function proveedores()
+    {
+        return $this->hasMany(Proveedor::class, 'role_id');
     }
 }
