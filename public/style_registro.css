@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #0a0f3d, #1b2a49, #3e2b5b, #000000);
+    background-size: 300% 300%;
+    animation: fondoAnimado 20s ease infinite;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+}
+
+
+
+@keyframes fondoAnimado {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px 30px;
+    backdrop-filter: blur(5px);
+}
+
+.logo img {
+    width: 50px;
+    height: auto;
+    border-radius: 10px;
+}
+
+header h1 {
+    font-size: 28px;
+    color: #fff;
+}
+
+/* FORMULARIO DE REGISTRO */
+#register {
+    max-width: 500px;
+    margin: 60px auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 40px 30px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+#register h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 28px;
+    color: #fff;
+}
+
+#register label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #fff;
+}
+
+#register input {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 40px;
+    background-color: transparent;
+    color: #fff;
+    font-size: 16px;
+}
+
+#register input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+#register input:focus {
+    outline: none;
+    border-color: #fff;
+}
+
+/* BOTÓN REGISTRAR CON EFECTO */
+#register button {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    border-radius: 40px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #333;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#register button:hover {
+    background: linear-gradient(135deg, #43cea2, #185a9d);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* LINK DE LOGIN */
+#register p {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+#register p a {
+    color: #fff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+#register p a:hover {
+    text-decoration: underline;
+}
+
+/* MENSAJES DE ERROR */
+#register div ul {
+    background: rgba(255, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-top: 15px;
+    color: #fff;
+    list-style: none;
+}
+
+/* FOOTER */
+footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    color: #fff;
+    font-size: 14px;
+}

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro de Proveedor - Sports Store</title>
-    <link rel="stylesheet" href="{{ asset('style2.css') }}">
+    <link rel="stylesheet" href="{{ asset('registro_proveedor.css') }}">
 
 </head>
 <body>
@@ -37,6 +37,8 @@
 
             <button type="submit">Registrarse</button>
         </form>
+
+          <p class="login-link">¿Ya tienes cuenta? <a href="{{ route('proveedor.login') }}">Inicia sesión aquí</a></p>
 
         @if ($errors->any())
             <div class="error-list">

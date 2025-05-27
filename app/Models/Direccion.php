@@ -9,11 +9,27 @@ class Direccion extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'direccion', 'ciudad', 'estado', 'codigo_postal'];
+    protected $table = 'direcciones'; // 👈 Esto soluciona el error
 
-    // Relación con el usuario
+    protected $fillable = [
+        'user_id',
+        'codigo_postal_id',
+        'calle',
+        'numero',
+        'referencias',
+        'colonia',
+        'ciudad',
+        'estado',
+        'pais',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function codigoPostal()
+    {
+        return $this->belongsTo(CodigoPostal::class);
     }
 }

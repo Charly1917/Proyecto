@@ -9,7 +9,7 @@ class CarritoDetalle extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['carrito_id', 'producto_id', 'cantidad'];
+    protected $fillable = ['user_id', 'producto_id', 'cantidad', 'subtotal'];
 
     // Relación con el carrito
     public function carrito()
@@ -19,7 +19,8 @@ class CarritoDetalle extends Model
 
     // Relación con el producto
     public function producto()
-    {
-        return $this->belongsTo(Producto::class);
-    }
+{
+    return $this->belongsTo(Producto::class);
+}
+
 }

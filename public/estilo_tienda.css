@@ -1,0 +1,269 @@
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #222; /* Color base del texto */
+}
+
+.container {
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    margin: 30px auto;
+    max-width: 900px;
+    text-align: left;
+    color: #222;
+}
+
+h2, h3, h4 {
+    color: #222;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* PRODUCTOS DESTACADOS */
+#productos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.producto {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+    cursor: pointer;
+    color: #222;
+}
+
+.producto:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.producto img {
+    max-width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.producto h3 {
+    font-size: 18px;
+    margin-top: 10px;
+    color: #111;
+}
+
+.producto p {
+    color: #444;
+    font-weight: bold;
+}
+
+/* TABLAS */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    color: #222;
+}
+
+.table th,
+.table td {
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.table thead {
+    background-color: #e9ecef;
+    font-weight: bold;
+}
+
+/* FORMULARIOS */
+input[type="text"], select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+form {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+    color: #222;
+}
+
+/* BOTONES */
+.botones-centro {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s ease-in-out;
+    border: none;
+    cursor: pointer;
+    color: white;
+}
+
+.btn-primary {
+    background-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+.btn-success {
+    background-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #1e7e34;
+    transform: scale(1.05);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #bd2130;
+    transform: scale(1.05);
+}
+
+/* ALERTAS */
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center;
+    color: #222;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+/* RADIO BUTTONS */
+label {
+    margin-right: 20px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* SECCIÓN DE DATOS DE TARJETA */
+#datos_tarjeta {
+    border: 1px solid #ddd;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    margin-top: 20px;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #222;
+}
+
+/* SECCIÓN DE RESUMEN DEL CARRITO */
+#resumen_carrito {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-top: 30px;
+    color: #222;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+
+    #productos {
+        grid-template-columns: 1fr;
+    }
+
+    form, #datos_tarjeta, #resumen_carrito {
+        width: 100%;
+    }
+}
+
+.opciones-pago {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.opciones-pago label {
+    font-weight: 500;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+}
+.resumen-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    color: #222;
+}
+
+.resumen-table th,
+.resumen-table td {
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.resumen-table thead {
+    background-color: #f0f0f0;
+}
+
+.resumen-table tfoot {
+    background-color: #e9ecef;
+    font-weight: bold;
+}
+
+.btn-regresar {
+    display: inline-block;
+    background-color: #6c63ff; /* Lila-azul */
+    color: #fff;
+    padding: 10px 20px;
+    font-weight: bold;
+    text-decoration: none;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn-regresar:hover {
+    background-color: #574b90; /* tono más oscuro */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}

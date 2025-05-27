@@ -11,31 +11,51 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    // Especificamos que la tabla se llama 'usuarios'
     protected $table = 'usuarios';
 
-    // Campos que pueden ser asignados masivamente
     protected $fillable = [
-    'nombre', 'apellido_paterno', 'apellido_materno', 'email', 'password', 'role_id',
-];
-
-
-    // Para la autenticación, la clave primaria
-    protected $primaryKey = 'id';
-
-    // Columnas protegidas al serializar
-    protected $hidden = [
-        'password', 'remember_token',
+        'nombre',
+        'apellido_paterno',
+        'apellido_materno',
+        'email',
+        'password',
+        'telefono',
+        'rfc',
+        'role_id',
     ];
 
-    // Columnas tratadas como fechas
+    protected $primaryKey = 'id';
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
+    // RELACIONES
     public function role()
-{
-    return $this->belongsTo(Role::class, 'role_id');
-}
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
 
+    public function carrito()
+    {
+        return $this->hasMany(CarritoDetalle::class, 'user_id');
+    }
+
+    public function pedidos()
+    {
+        return $this->hasMany(Pedido::class, 'user_id');
+    }
+
+    public function direcciones() {
+        return $this->hasMany(Direccion::class, 'user_id');
+    }
+
+    public function tarjetasCredito() {
+        return $this->hasMany(TarjetaCredito::class, 'user_id');
+    }
 }

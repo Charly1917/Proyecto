@@ -3,21 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Agregar Producto</title>
-    <link rel="stylesheet" href="{{ asset('style2.css') }}">
+    <link rel="stylesheet" href="{{ asset('style3.css') }}">
 </head>
 <body>
     <header>
-        <div>
-            <h1>Agregar Producto</h1>
-            <form action="{{ route('proveedor.logout') }}" method="POST">
-                @csrf
-                <button type="submit">Cerrar sesión</button>
-            </form>
-
-        </div>
+        <h1>Agregar Producto</h1>
+        <form action="{{ route('proveedor.logout') }}" method="POST">
+            @csrf
+            <button type="submit">Cerrar sesión</button>
+        </form>
     </header>
 
-    <div class="container">
+    <div class="form-container">
         <form action="{{ route('proveedor.producto.store') }}" method="POST">
             @csrf
             <label>Nombre del producto:</label>
@@ -32,7 +29,10 @@
             <label>Stock disponible:</label>
             <input type="number" name="stock" min="0" required>
 
-            <button type="submit" class="btn-guardar">Guardar Producto</button>
+            <div>
+                <a href="{{ route('proveedor.dashboard') }}" class="button cancel-button">Cancelar</a>
+                <button type="submit">Guardar Producto</button>
+            </div>
         </form>
     </div>
 </body>

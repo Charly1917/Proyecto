@@ -42,6 +42,18 @@ class ProveedorAuthController extends Controller
         $productos = Producto::where('proveedor_id', $proveedor->id)->get();
 
         return view('proveedor.dashboard', compact('productos'));
+
+       
+        $proveedorId = Auth::guard('proveedor')->id();
+        $productos = Producto::where('proveedor_id', $proveedorId)->get();
+
+        // Aquí es donde colocas las cabeceras para evitar el caché
+        $response = response()->view('proveedor.dashboard', compact('productos'));
+        $response->header('Cache-Control','no-cache, no-store, must-revalidate');
+        $response->header('Pragma','no-cache');
+        $response->header('Expires','0');
+        return $response;
+    
     }
 
     // Mostrar formulario para crear producto
@@ -79,40 +91,42 @@ class ProveedorAuthController extends Controller
 
     // Procesar registro del proveedor
     public function register(Request $request)
-    {
-        $request->validate([
-            'nombre'            => 'required|string|max:255',
-            'apellido_paterno'  => 'required|string|max:255',
-            'apellido_materno'  => 'required|string|max:255',
-            'email'             => 'required|email|unique:proveedores,email',
-            'password'          => 'required|string|min:6|confirmed',
-        ]);
+{
+    $request->validate([
+        'nombre'            => 'required|string|max:255',
+        'apellido_paterno'  => 'required|string|max:255',
+        'apellido_materno'  => 'required|string|max:255',
+        'email'             => 'required|email|unique:proveedores,email',
+        'password'          => 'required|string|min:6|confirmed',
+    ]);
 
-        $rol = Role::where('nombre', 'proveedor')->first();
+    $rol = Role::where('nombre', 'proveedor')->first();
 
-        $proveedor = Proveedor::create([
-            'nombre'            => $request->nombre,
-            'apellido_paterno'  => $request->apellido_paterno,
-            'apellido_materno'  => $request->apellido_materno,
-            'email'             => $request->email,
-            'password'          => Hash::make($request->password),
-            'role_id'           => $rol ? $rol->id : null,
-        ]);
+    Proveedor::create([
+        'nombre'            => $request->nombre,
+        'apellido_paterno'  => $request->apellido_paterno,
+        'apellido_materno'  => $request->apellido_materno,
+        'email'             => $request->email,
+        'password'          => \Illuminate\Support\Facades\Hash::make($request->password),
+        'role_id'           => $rol ? $rol->id : null,
+    ]);
 
-        Auth::guard('proveedor')->login($proveedor);
+    // Redirigir al login con mensaje de éxito
+    return redirect()->route('proveedor.login')->with('success', 'Registro exitoso. Ahora puedes iniciar sesión.');
+}
 
-        return redirect()->route('proveedor.dashboard');
-    }
 
     // Cerrar sesión del proveedor
     public function logout(Request $request)
 {
     Auth::guard('proveedor')->logout();
+
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
-    return redirect()->route('proveedor.login');
+    return redirect('/proveedor/login'); // 👈 Asegúrate de redirigir aquí
 }
+
 
     // Mostrar formulario para editar un producto
     public function editarProducto($id)

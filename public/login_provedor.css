@@ -1,0 +1,126 @@
+/* General */
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Contenedor principal */
+.container {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Logo y título */
+header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+header .logo img {
+    width: 80px;
+    height: auto;
+    border-radius: 8px;
+}
+
+header h1 {
+    margin-top: 10px;
+    font-size: 1.8rem;
+    color: #512da8;
+}
+
+/* Formulario */
+.login-form h2 {
+    text-align: center;
+    font-size: 1.4rem;
+    color: #303f9f;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #333;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1.5px solid #ccc;
+    font-size: 1rem;
+    transition: border 0.3s;
+    box-sizing: border-box;
+}
+
+.input-group input:focus {
+    border-color: #512da8;
+    outline: none;
+}
+
+/* Botón */
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background: #512da8;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background: #311b92;
+}
+
+/* Registro link */
+.login-form p {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.95rem;
+}
+
+.login-form a {
+    color: #303f9f;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-form a:hover {
+    text-decoration: underline;
+}
+
+/* Errores */
+.error-messages {
+    background-color: #ffcdd2;
+    color: #b71c1c;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-size: 0.95rem;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.85rem;
+    color: #777;
+}

@@ -9,7 +9,13 @@ class PedidoDetalle extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['pedido_id', 'producto_id', 'cantidad', 'precio'];
+    protected $fillable = [
+        'pedido_id',
+        'producto_id',
+        'cantidad',
+        'precio_unitario',
+        'subtotal',
+    ];
 
     // Relación con el pedido
     public function pedido()

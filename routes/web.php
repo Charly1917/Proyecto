@@ -3,7 +3,18 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProveedorAuthController;
-use App\Models\Producto;
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\MensajeController;
+use App\Http\Controllers\CodigoPostalController;
+
+Route::get('/buscar-cp/{codigo_postal}', [CodigoPostalController::class, 'buscar']);
+
+
+
+Route::post('/mensajes', [MensajeController::class, 'store'])->name('mensajes.store');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,26 +25,28 @@ use App\Models\Producto;
 // Página de inicio que muestra el formulario de login (usuarios)
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 
-// Ruta para procesar el login de usuarios
+// Procesar login de usuarios
 Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 
 // Página principal (inicio) para usuarios autenticados
 Route::get('/inicio', function () {
-    $productos = Producto::all();
+    $productos = \App\Models\Producto::all();
     return view('inicio', compact('productos'));
 })->middleware('auth')->name('inicio');
 
-// Ruta para cerrar sesión (usuarios)
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('/', [AuthController::class, 'showLoginForm'])->name('login.form');
+// Cerrar sesión de usuarios
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
+// Ruta raíz redirige a login
+Route::get('/', function () {
+    return redirect()->route('login');
+})->name('login.form');
 
 // Formulario de registro de usuarios
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register.form');
 
 // Procesar registro de usuarios
 Route::post('/register', [AuthController::class, 'register'])->name('register.store');
-
 
 /*
 |--------------------------------------------------------------------------
@@ -53,25 +66,50 @@ Route::get('/proveedor/login', [ProveedorAuthController::class, 'showLoginForm']
 // Procesar login de proveedores
 Route::post('/proveedor/login', [ProveedorAuthController::class, 'login'])->name('proveedor.login.submit');
 
-// Cerrar sesión del proveedor
-Route::post('/proveedor/logout', [ProveedorAuthController::class, 'logout'])->name('proveedor.logout');
+// Cerrar sesión de proveedores
+Route::post('/proveedor/logout', [ProveedorAuthController::class, 'logout'])->middleware('auth:proveedor')->name('proveedor.logout');
 
-// Rutas protegidas con el guard de proveedor
+// Rutas protegidas para proveedores autenticados
 Route::middleware('auth:proveedor')->group(function () {
-    
-    // Panel principal del proveedor
+
+    // Dashboard del proveedor
     Route::get('/proveedor/dashboard', [ProveedorAuthController::class, 'dashboard'])->name('proveedor.dashboard');
 
-    // Formulario para crear producto (solo proveedor autenticado)
+    // Formulario para crear producto
     Route::get('/proveedor/productos/create', [ProveedorAuthController::class, 'crearProducto'])->name('proveedor.producto.create');
 
-    // Guardar nuevo producto (solo proveedor autenticado)
+    // Guardar nuevo producto
     Route::post('/proveedor/productos', [ProveedorAuthController::class, 'guardarProducto'])->name('proveedor.producto.store');
 
     // Formulario para editar producto
-Route::get('/proveedor/productos/{id}/edit', [ProveedorAuthController::class, 'editarProducto'])->name('proveedor.producto.edit');
+    Route::get('/proveedor/productos/{id}/edit', [ProveedorAuthController::class, 'editarProducto'])->name('proveedor.producto.edit');
 
-// Guardar cambios al producto editado
-Route::put('/proveedor/productos/{id}', [ProveedorAuthController::class, 'actualizarProducto'])->name('proveedor.producto.update');
-
+    // Actualizar producto editado
+    Route::put('/proveedor/productos/{id}', [ProveedorAuthController::class, 'actualizarProducto'])->name('proveedor.producto.update');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Rutas para PRODUCTOS, CARRITO y PEDIDOS (usuarios autenticados)
+|--------------------------------------------------------------------------
+*/
+
+// Mostrar listado de productos (acceso público o autenticado, según necesidad)
+Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
+    Route::get('/carrito/agregar/{id}', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+    Route::get('/carrito/vaciar', [CarritoController::class, 'vaciar'])->name('carrito.vaciar');
+});
+
+// Página checkout
+Route::get('/checkout', [PedidoController::class, 'checkout'])->middleware('auth')->name('pedido.checkout');
+
+// Procesar pedido
+Route::post('/checkout', [PedidoController::class, 'procesar'])->middleware('auth')->name('pedido.procesar');
+
+
+Route::get('/pedido/confirmacion', function () {
+    return view('pedidos.confirmacion');
+})->middleware('auth')->name('pedido.confirmacion');

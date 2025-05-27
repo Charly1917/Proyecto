@@ -11,24 +11,32 @@ class Producto extends Model
 
     protected $table = 'productos';
 
-    // Campos permitidos para asignación masiva
     protected $fillable = [
-    'nombre',
-    'descripcion',
-    'precio',
-    'stock',
-    'imagen',
-    'proveedor_id',
+        'nombre',
+        'descripcion',
+        'precio',
+        'stock',
+        'imagen',
+        'proveedor_id',
     ];
 
-
-    // Activa timestamps
     public $timestamps = true;
 
-    // Relación con proveedor
-   public function proveedor()
+    // Relación: un producto pertenece a un proveedor
+    public function proveedor()
     {
-    return $this->belongsTo(Proveedor::class);
+        return $this->belongsTo(Proveedor::class);
     }
 
+    // Relación: un producto puede estar en muchos carritos
+    public function carritoDetalles()
+    {
+        return $this->hasMany(CarritoDetalle::class);
+    }
+
+    // Relación: un producto puede estar en muchos pedidos
+    public function pedidoDetalles()
+    {
+        return $this->hasMany(PedidoDetalle::class);
+    }
 }

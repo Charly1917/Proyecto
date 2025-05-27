@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void {
         Schema::create('usuarios', function (Blueprint $table) {
-            $table->id();
+            $table->id(); // equivale a unsignedBigInteger con autoincrement
             $table->string('nombre');
             $table->string('apellido_paterno');
             $table->string('apellido_materno')->nullable();

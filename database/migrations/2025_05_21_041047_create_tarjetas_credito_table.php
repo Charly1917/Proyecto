@@ -8,14 +8,14 @@ return new class extends Migration {
     public function up(): void {
         Schema::create('tarjetas_credito', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('usuario_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('numero_tarjeta');
             $table->string('nombre_titular');
             $table->string('fecha_expiracion');
             $table->string('cvv');
             $table->timestamps();
 
-            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('usuarios')->onDelete('cascade');
         });
     }
 
