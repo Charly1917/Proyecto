@@ -162,3 +162,19 @@ footer {
     color: #fff;
     font-size: 14px;
 }
+
+.errores {
+    background-color: #ffe6e6;
+    color: red;
+    padding: 10px;
+    border: 1px solid red;
+    border-radius: 5px;
+    margin-bottom: 15px;
+ }
+
+.campo-error {
+    color: red;
+    font-size: 0.9em;
+    margin-top: -8px;
+    margin-bottom: 10px;
+}

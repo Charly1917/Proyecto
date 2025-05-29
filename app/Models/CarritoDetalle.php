@@ -9,6 +9,8 @@ class CarritoDetalle extends Model
 {
     use HasFactory;
 
+    protected $table = 'carrito_detalles'; 
+
     protected $fillable = ['user_id', 'producto_id', 'cantidad', 'subtotal'];
 
     // Relación con el carrito

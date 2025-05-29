@@ -21,14 +21,22 @@
                 @csrf
                 <div class="input-group">
                     <label for="email">Correo Electrónico:</label>
-                    <input type="email" id="email" name="email" required>
+                    <input type="email" id="email" name="email" required value="{{ old('email') }}">
+                    @error('email')
+                         <span class="error-text">{{ $message }}</span>
+                    @enderror
                 </div>
+
 
                 <div class="input-group password-toggle">
                     <label for="password">Contraseña:</label>
                     <input type="password" id="password" name="password" required>
                     <button type="button" class="toggle-btn" onclick="togglePassword()">👁️</button>
+                    @error('password')
+                        <span class="error-text">{{ $message }}</span>
+                    @enderror
                 </div>
+
 
                 <button type="submit">Iniciar Sesión</button>
             </form>

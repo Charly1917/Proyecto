@@ -16,24 +16,38 @@
         <h2>Crear cuenta</h2>
         <form action="{{ route('proveedor.register.store') }}" method="POST">
             @csrf
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
+            @error('nombre')
+                <div class="error-text">{{ $message }}</div>
+            @enderror
 
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" value="{{ old('nombre') }}" required>
+                <label for="apellido_paterno">Apellido Paterno:</label>
+                <input type="text" id="apellido_paterno" name="apellido_paterno" value="{{ old('apellido_paterno') }}" required>
+            @error('apellido_paterno')
+                <div class="error-text">{{ $message }}</div>
+            @enderror
 
-            <label for="apellido_paterno">Apellido Paterno:</label>
-            <input type="text" id="apellido_paterno" name="apellido_paterno" value="{{ old('apellido_paterno') }}" required>
+                <label for="apellido_materno">Apellido Materno:</label>
+                <input type="text" id="apellido_materno" name="apellido_materno" value="{{ old('apellido_materno') }}" required>
+            @error('apellido_materno')
+                <div class="error-text">{{ $message }}</div>
+            @enderror
 
-            <label for="apellido_materno">Apellido Materno:</label>
-            <input type="text" id="apellido_materno" name="apellido_materno" value="{{ old('apellido_materno') }}" required>
+                <label for="email">Correo Electrónico:</label>
+                <input type="email" id="email" name="email" value="{{ old('email') }}" required>
+            @error('email')
+                <div class="error-text">{{ $message }}</div>
+            @enderror
 
-            <label for="email">Correo Electrónico:</label>
-            <input type="email" id="email" name="email" value="{{ old('email') }}" required>
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" required>
+            @error('password')
+                <div class="error-text">{{ $message }}</div>
+            @enderror
 
-            <label for="password">Contraseña:</label>
-            <input type="password" id="password" name="password" required>
-
-            <label for="password_confirmation">Confirmar Contraseña:</label>
-            <input type="password" id="password_confirmation" name="password_confirmation" required>
+                <label for="password_confirmation">Confirmar Contraseña:</label>
+                <input type="password" id="password_confirmation" name="password_confirmation" required>
 
             <button type="submit">Registrarse</button>
         </form>

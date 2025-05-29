@@ -11,7 +11,7 @@ class TarjetaCredito extends Model
     protected $table = 'tarjetas_credito'; // Esto corrige el nombre real
 
     protected $fillable = [
-        'usuario_id',
+        'user_id',
         'numero_tarjeta',
         'nombre_titular',
         'fecha_expiracion',

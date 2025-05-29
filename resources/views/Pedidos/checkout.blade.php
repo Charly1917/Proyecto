@@ -14,33 +14,6 @@
 
     <a href="{{ route('inicio') }}" class="btn-regresar">Regresar al Inicio</a>
 
-   <table class="table table-bordered resumen-table mt-3">
-    <thead>
-        <tr>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Precio Unitario</th>
-            <th>Subtotal</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($carrito as $item)
-            <tr>
-                <td>{{ $item->producto->nombre }}</td>
-                <td>{{ $item->cantidad }}</td>
-                <td>${{ number_format($item->producto->precio, 2) }}</td>
-                <td>${{ number_format($item->subtotal, 2) }}</td>
-            </tr>
-        @endforeach
-    </tbody>
-    <tfoot>
-        <tr>
-            <th colspan="3" class="text-end">Total:</th>
-            <th>${{ number_format($total, 2) }}</th>
-        </tr>
-    </tfoot>
-</table>
-
 
     <h3>Método de pago</h3>
    <form method="POST" action="{{ route('pedido.procesar') }}">

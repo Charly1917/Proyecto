@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User; // Asegúrate de que el modelo User esté correctamente configurado
+use Illuminate\Support\Facades\Session;
+use App\Models\User;
 use App\Models\Role;
 
 class AuthController extends Controller
@@ -19,17 +19,23 @@ class AuthController extends Controller
     // Procesar login
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-
-        // Intentar iniciar sesión con las credenciales
-        if (Auth::guard('web')->attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->route('inicio'); // Redirige al inicio
+        if (!$request->email || !$request->password) {
+            return view('auth.login', ['estatus' => 'error', 'mensaje' => '¡Completa los campos!']);
         }
 
-        return back()->withErrors([
-            'email' => 'Credenciales incorrectas.',
-        ]);
+        $usuario = User::where('email', $request->email)->first();
+
+        if (!$usuario) {
+            return view('auth.login', ['estatus' => 'error', 'mensaje' => '¡El correo no está registrado!']);
+        }
+
+        if (!Hash::check($request->password, $usuario->password)) {
+            return view('auth.login', ['estatus' => 'error', 'mensaje' => '¡La contraseña es incorrecta!']);
+        }
+
+        Session::put('usuario', $usuario);
+
+        return redirect()->route('inicio'); // Página de inicio después del login
     }
 
     // Mostrar formulario de registro
@@ -40,39 +46,52 @@ class AuthController extends Controller
 
     // Procesar registro
     public function register(Request $request)
-{
-    $request->validate([
-        'nombre' => 'required|string|max:255',
-        'apellido_paterno' => 'required|string|max:255',
-        'apellido_materno' => 'nullable|string|max:255',
-        'email' => 'required|email|unique:usuarios,email',
-        'password' => 'required|confirmed|min:6',
-    ]);
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'apellido_paterno' => 'required|string|max:255',
+            'apellido_materno' => 'nullable|string|max:255',
+            'email' => 'required|email|unique:usuarios,email',
+            'password' => 'required|min:6|confirmed',
+        ], [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'apellido_paterno.required' => 'El apellido paterno es obligatorio.',
+            'email.required' => 'El correo es obligatorio.',
+            'email.email' => 'El correo debe tener un formato válido.',
+            'email.unique' => '¡El correo ya está registrado!',
+            'password.required' => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
+            'password.confirmed' => 'Las contraseñas no coinciden.',
+        ]);
 
-    // Obtener el rol de "cliente" o "usuario"
-    $rol = Role::where('nombre', 'cliente')->first(); // o 'usuario' según el nombre que tengas
 
-    // Crear nuevo usuario con rol
-    User::create([
-        'nombre' => $request->nombre,
-        'apellido_paterno' => $request->apellido_paterno,
-        'apellido_materno' => $request->apellido_materno,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-        'role_id' => $rol ? $rol->id : null, // asignar ID de rol
-    ]);
+        $usuarioExistente = User::where('email', $request->email)->first();
 
-    return redirect()->route('login.form')->with('success', 'Usuario registrado. Inicia sesión.');
-}
+        if ($usuarioExistente) {
+            return view("auth.register", ['estatus' => 'error', 'mensaje' => '¡El correo ya está registrado!']);
+        }
+
+        $rol = Role::where('nombre', 'cliente')->first();
+
+        $usuario = new User();
+        $usuario->nombre = $request->nombre;
+        $usuario->apellido_paterno = $request->apellido_paterno;
+        $usuario->apellido_materno = $request->apellido_materno;
+        $usuario->email = $request->email;
+        $usuario->password = Hash::make($request->password);
+        $usuario->role_id = $rol ? $rol->id : null;
+        $usuario->save();
+
+        return view('auth.login', ['estatus' => 'success', 'mensaje' => '¡Cuenta creada! Inicia sesión.']);
+    }
 
     // Cerrar sesión
-   public function logout(Request $request)
-{
-    Auth::logout();
-    $request->session()->invalidate();
-    $request->session()->regenerateToken();
+    public function logout()
+    {
+        if (Session::has('usuario')) {
+            Session::forget('usuario');
+        }
 
-    return redirect()->route('login.form'); // Redirige por nombre de ruta
-}
-
+        return redirect()->route('login.form');
+    }
 }

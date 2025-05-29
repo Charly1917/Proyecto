@@ -8,6 +8,7 @@ use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\MensajeController;
 use App\Http\Controllers\CodigoPostalController;
+use App\Http\Controllers\InicioController;
 
 Route::get('/buscar-cp/{codigo_postal}', [CodigoPostalController::class, 'buscar']);
 
@@ -29,10 +30,10 @@ Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 
 // Página principal (inicio) para usuarios autenticados
-Route::get('/inicio', function () {
-    $productos = \App\Models\Producto::all();
-    return view('inicio', compact('productos'));
-})->middleware('auth')->name('inicio');
+Route::middleware('verificar.usuario')->group(function () {
+    Route::get('/inicio', [InicioController::class, 'inicio'])->name('inicio');
+});
+
 
 // Cerrar sesión de usuarios
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
@@ -62,15 +63,13 @@ Route::post('/proveedor/registro', [ProveedorAuthController::class, 'register'])
 
 // Formulario de login para proveedores
 Route::get('/proveedor/login', [ProveedorAuthController::class, 'showLoginForm'])->name('proveedor.login');
-
-// Procesar login de proveedores
-Route::post('/proveedor/login', [ProveedorAuthController::class, 'login'])->name('proveedor.login.submit');
+Route::post('/proveedor/login', [ProveedorAuthController::class, 'verificarLogin'])->name('proveedor.login.submit');
 
 // Cerrar sesión de proveedores
 Route::post('/proveedor/logout', [ProveedorAuthController::class, 'logout'])->middleware('auth:proveedor')->name('proveedor.logout');
 
 // Rutas protegidas para proveedores autenticados
-Route::middleware('auth:proveedor')->group(function () {
+Route::middleware('verificarproveedor')->group(function () {
 
     // Dashboard del proveedor
     Route::get('/proveedor/dashboard', [ProveedorAuthController::class, 'dashboard'])->name('proveedor.dashboard');
@@ -97,19 +96,18 @@ Route::middleware('auth:proveedor')->group(function () {
 // Mostrar listado de productos (acceso público o autenticado, según necesidad)
 Route::get('/productos', [ProductoController::class, 'index'])->name('productos.index');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('verificar.usuario')->group(function () {
     Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
     Route::get('/carrito/agregar/{id}', [CarritoController::class, 'agregar'])->name('carrito.agregar');
     Route::get('/carrito/vaciar', [CarritoController::class, 'vaciar'])->name('carrito.vaciar');
 });
 
-// Página checkout
-Route::get('/checkout', [PedidoController::class, 'checkout'])->middleware('auth')->name('pedido.checkout');
 
-// Procesar pedido
-Route::post('/checkout', [PedidoController::class, 'procesar'])->middleware('auth')->name('pedido.procesar');
+Route::middleware('verificar.usuario')->group(function () {
+    Route::get('/checkout', [PedidoController::class, 'checkout'])->name('pedido.checkout');
+    Route::post('/checkout', [PedidoController::class, 'procesar'])->name('pedido.procesar');
+    Route::get('/pedido/confirmacion', function () {
+        return view('pedidos.confirmacion');
+    })->name('pedido.confirmacion');
+});
 
-
-Route::get('/pedido/confirmacion', function () {
-    return view('pedidos.confirmacion');
-})->middleware('auth')->name('pedido.confirmacion');

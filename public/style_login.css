@@ -161,3 +161,25 @@ footer {
     color: #fff;
     font-size: 14px;
 }
+/* MENSAJES DE ESTADO (ÉXITO / ERROR) */
+.mensaje {
+    margin: 20px auto;
+    padding: 15px 25px;
+    width: fit-content;
+    max-width: 90%;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 16px;
+    text-align: center;
+    color: #fff;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.mensaje.success {
+    background-color: rgba(0, 128, 0, 0.8); /* Verde */
+}
+
+.mensaje.error {
+    background-color: rgba(255, 0, 0, 0.8); /* Rojo */
+}

@@ -28,15 +28,20 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($carrito as $item)
+                @forelse ($carrito as $item)
                     <tr>
-                        <td>{{ $item->producto->nombre }}</td>
+                        <td>{{ $item->producto->nombre ?? 'Producto no encontrado' }}</td>
                         <td>{{ $item->cantidad }}</td>
-                        <td>${{ number_format($item->producto->precio, 2) }}</td>
+                        <td>${{ number_format($item->producto->precio ?? 0, 2) }}</td>
                         <td>${{ number_format($item->subtotal, 2) }}</td>
                     </tr>
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="4">No hay productos en el carrito.</td>
+                    </tr>
+                @endforelse
             </tbody>
+
         </table>
 
         <div class="botones-centro">

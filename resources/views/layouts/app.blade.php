@@ -34,9 +34,10 @@
 
                 <li>
                     <a href="{{ route('carrito.index') }}" class="nav-link">
-                        🛒 Carrito ({{ \App\Models\CarritoDetalle::where('user_id', auth()->id())->count() }})
+                        🛒 Carrito ({{ $carritoCount ?? 0 }})
                     </a>
                 </li>
+
 
                 <li>
                     <form action="{{ route('logout') }}" method="POST" style="display:inline;">
