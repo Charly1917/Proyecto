@@ -78,19 +78,29 @@ class ProveedorAuthController extends Controller
         if (!Hash::check($request->password, $proveedor->password)) {
             return back()->withErrors(['password' => 'La contraseña es incorrecta.'])->withInput();
         }
-
-        // Guardar sesión del proveedor
         Session::put('proveedor', $proveedor);
+        // Guardar sesión del proveedor
+            if ($request->has('r')) {
+                try {
+                    $ruta = Crypt::decrypt($request->r);
+                    return redirect($ruta);
+                } catch (\Exception $e) {
+                }
+            }
 
-        return redirect()->route('proveedor.dashboard');
+            return redirect()->route('proveedor.dashboard');
+
     }
 
     // Cerrar sesión
-    public function logout()
+
+        public function logout()
     {
-        Session::forget('proveedor');
-        return redirect()->route('proveedor.login');
+        Session::flush(); // Elimina toda la sesión
+        return redirect()->route('proveedor.login'); // Redirige a login del proveedor
     }
+
+    
 
     // Mostrar dashboard con productos del proveedor logueado
     public function dashboard()

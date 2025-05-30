@@ -9,17 +9,18 @@ use App\Models\CarritoDetalle;
 
 class InicioController extends Controller
 {
-    public function inicio()
+        public function inicio()
     {
+        if (!Session::has('usuario')) {
+            return redirect()->route('login.form');
+        }
+
         $usuario = Session::get('usuario');
         $productos = Producto::all(); 
 
-        $carritoCount = 0;
-
-        if ($usuario) {
-            $carritoCount = CarritoDetalle::where('user_id', $usuario->id)->count();
-        }
+        $carritoCount = CarritoDetalle::where('user_id', $usuario->id)->count();
 
         return view('inicio', compact('usuario', 'productos', 'carritoCount'));
     }
+
 }

@@ -32,11 +32,14 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 // Página principal (inicio) para usuarios autenticados
 Route::middleware('verificar.usuario')->group(function () {
     Route::get('/inicio', [InicioController::class, 'inicio'])->name('inicio');
+    
 });
 
 
+
+
 // Cerrar sesión de usuarios
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Ruta raíz redirige a login
 Route::get('/', function () {
@@ -54,36 +57,24 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.st
 | Rutas para PROVEEDORES
 |--------------------------------------------------------------------------
 */
-
-// Formulario de registro de proveedores
-Route::get('/proveedor/registro', [ProveedorAuthController::class, 'showRegisterForm'])->name('proveedor.register.form');
-
-// Procesar registro de proveedores
-Route::post('/proveedor/registro', [ProveedorAuthController::class, 'register'])->name('proveedor.register.store');
-
-// Formulario de login para proveedores
+// Login y registro de proveedores
 Route::get('/proveedor/login', [ProveedorAuthController::class, 'showLoginForm'])->name('proveedor.login');
 Route::post('/proveedor/login', [ProveedorAuthController::class, 'verificarLogin'])->name('proveedor.login.submit');
 
-// Cerrar sesión de proveedores
-Route::post('/proveedor/logout', [ProveedorAuthController::class, 'logout'])->middleware('auth:proveedor')->name('proveedor.logout');
+Route::get('/proveedor/registro', [ProveedorAuthController::class, 'showRegisterForm'])->name('proveedor.register.form');
+Route::post('/proveedor/registro', [ProveedorAuthController::class, 'register'])->name('proveedor.register.store');
+
+// Cerrar sesión proveedor (sin middleware 'auth:proveedor' porque usas sesión manual)
+Route::post('/proveedor/logout', [ProveedorAuthController::class, 'logout'])->name('proveedor.logout');
 
 // Rutas protegidas para proveedores autenticados
 Route::middleware('verificarproveedor')->group(function () {
-
-    // Dashboard del proveedor
     Route::get('/proveedor/dashboard', [ProveedorAuthController::class, 'dashboard'])->name('proveedor.dashboard');
 
-    // Formulario para crear producto
     Route::get('/proveedor/productos/create', [ProveedorAuthController::class, 'crearProducto'])->name('proveedor.producto.create');
-
-    // Guardar nuevo producto
     Route::post('/proveedor/productos', [ProveedorAuthController::class, 'guardarProducto'])->name('proveedor.producto.store');
 
-    // Formulario para editar producto
     Route::get('/proveedor/productos/{id}/edit', [ProveedorAuthController::class, 'editarProducto'])->name('proveedor.producto.edit');
-
-    // Actualizar producto editado
     Route::put('/proveedor/productos/{id}', [ProveedorAuthController::class, 'actualizarProducto'])->name('proveedor.producto.update');
 });
 

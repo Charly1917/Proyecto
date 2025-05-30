@@ -12,13 +12,18 @@ class VerificarUsuario
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @param  \Closure  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Session::has('usuario'))
-            return redirect()->route('login',['r'=>encrypt($request->getRequestUri())]);
+        if (!Session::has('usuario')) {
+            // Encriptar la URI completa (ruta con query)
+            $rutaEncriptada = encrypt($request->getRequestUri());
+
+            // Redirigir al login con la ruta encriptada en parámetro 'r'
+            return redirect()->route('login', ['r' => $rutaEncriptada]);
+        }
 
         return $next($request);
     }

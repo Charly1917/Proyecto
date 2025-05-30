@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Crypt;
 use App\Models\User;
 use App\Models\Role;
 
@@ -17,26 +18,37 @@ class AuthController extends Controller
     }
 
     // Procesar login
-    public function login(Request $request)
-    {
-        if (!$request->email || !$request->password) {
-            return view('auth.login', ['estatus' => 'error', 'mensaje' => '¡Completa los campos!']);
-        }
-
-        $usuario = User::where('email', $request->email)->first();
-
-        if (!$usuario) {
-            return view('auth.login', ['estatus' => 'error', 'mensaje' => '¡El correo no está registrado!']);
-        }
-
-        if (!Hash::check($request->password, $usuario->password)) {
-            return view('auth.login', ['estatus' => 'error', 'mensaje' => '¡La contraseña es incorrecta!']);
-        }
-
-        Session::put('usuario', $usuario);
-
-        return redirect()->route('inicio'); // Página de inicio después del login
+   public function login(Request $request)
+{
+    if (!$request->email || !$request->password) {
+        return view('auth.login', ['estatus' => 'error', 'mensaje' => '¡Completa los campos!']);
     }
+
+    $usuario = User::where('email', $request->email)->first();
+
+    if (!$usuario) {
+        return view('auth.login', ['estatus' => 'error', 'mensaje' => '¡El correo no está registrado!']);
+    }
+
+    if (!Hash::check($request->password, $usuario->password)) {
+        return view('auth.login', ['estatus' => 'error', 'mensaje' => '¡La contraseña es incorrecta!']);
+    }
+
+    // Guardar el usuario en la sesión
+    Session::put('usuario', $usuario);
+
+    if ($request->has('r')) {
+        try {
+            $ruta = Crypt::decrypt($request->r);
+            return redirect($ruta);
+        } catch (\Exception $e) {
+            // Si falla el decrypt, redirige al inicio normal
+        }
+    }
+
+    return redirect()->route('inicio');
+}
+
 
     // Mostrar formulario de registro
     public function showRegisterForm()
@@ -86,12 +98,11 @@ class AuthController extends Controller
     }
 
     // Cerrar sesión
-    public function logout()
+        public function logout()
     {
-        if (Session::has('usuario')) {
-            Session::forget('usuario');
-        }
-
+        Session::flush(); // Elimina toda la sesión
         return redirect()->route('login.form');
     }
+
+
 }
